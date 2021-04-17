@@ -1,0 +1,4 @@
+(executable
+ (public_name lips)
+ (name main)
+ (libraries lips))
