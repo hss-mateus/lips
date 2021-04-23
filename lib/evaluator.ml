@@ -60,9 +60,17 @@ let rec eval env = function
       | _ -> raise (TypeError "Expected function value in application"))
 
 let rec to_string = function
+  | VClosure (_, param, _) -> "(lambda (" ^ param ^ ") ...)"
+  | VInt n -> string_of_int n
+  | VBool b -> string_of_bool b
+  | VPair (v1, v2) -> "(" ^ to_string v1 ^ " . " ^ to_string v2 ^ ")"
+  | VNil -> "nil"
+  | VFix _ -> failwith "unreachable"
+
+let rec to_string_debug = function
   | VClosure _ -> "fun () -> ..."
   | VInt n -> "(VInt " ^ string_of_int n ^ ")"
   | VBool b -> "(VBool " ^ string_of_bool b ^ ")"
-  | VPair (v1, v2) -> "(VPair " ^ to_string v1 ^ ", " ^ to_string v2 ^ ")"
+  | VPair (v1, v2) -> "(VPair " ^ to_string_debug v1 ^ ", " ^ to_string_debug v2 ^ ")"
   | VNil -> "VNil"
   | VFix _ -> failwith "unreachable"
